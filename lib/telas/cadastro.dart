@@ -1,15 +1,16 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'tela_inicial.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaCadastro extends StatelessWidget {
   static String id = 'cadastro';
-  final _app = Firebase.initializeApp();
+
   final _auth = FirebaseAuth.instance;
   late String cpf;
   late String nome;
   late String senha;
+
+  TelaCadastro({Key? key}) : super(key: key);
 
 
 
@@ -32,21 +33,10 @@ class TelaCadastro extends StatelessWidget {
                         cpf = value;
                       },
                       decoration: const InputDecoration(
-                          labelText: "CPF",
+                          labelText: "Email",
                           labelStyle: TextStyle(color: Colors.white)),
                     ),
                     const Divider(),
-                    TextFormField(
-                      autofocus: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                      onChanged: (value) {
-                        nome = value;
-                      },
-                      decoration: const InputDecoration(
-                          labelText: "Nome Completo",
-                          labelStyle: TextStyle(color: Colors.white)),
-                    ),
                     TextFormField(
                       autofocus: true,
                       keyboardType: TextInputType.visiblePassword,
@@ -65,12 +55,10 @@ class TelaCadastro extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           try {
-                            final newUser = await _auth
+                            await _auth
                                 .createUserWithEmailAndPassword(
                                 email: cpf, password: senha);
-                            if (newUser != null) {
-                              Navigator.pushNamed(context, HomeScreen.id);
-                            }
+                            Navigator.pushNamed(context, HomeScreen.id);
                           } catch (e) {
                             print (e);
                           }
